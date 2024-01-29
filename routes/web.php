@@ -34,9 +34,8 @@ Route::get('/edit/{id}', [ProductController::class, 'edit'])->name('edit');
 Route::put('/update/{id}', [ProductController::class, 'update'])->name('update');
 Route::get('/list', [ProductController::class, 'list'])->name('list');
 Route::get('/regist', [ProductController::class, 'showRegistForm'])->name('regist.form');
-Route::post('/regist', [ProductController::class, 'regist'])->name('regist');
+//Route::post('/regist', [ProductController::class, 'regist'])->name('regist');
 Route::get('/search', [ProductController::class, 'search'])->name('search');
-Route::post('/submit', 'ProductController@regist')->name('submit');
 
 
 

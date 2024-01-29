@@ -34,7 +34,7 @@ class ProductController extends Controller
             return back();
         }
     
-        return redirect(route('regist'));
+        return redirect(route('regist.form'));
     }
 
     public function showDetailForm() {

@@ -70,11 +70,7 @@
                         <p>{{ $errors->first('img_path') }}</p>
                     @endif
                 </div>
-
-                <form action="{{ route('regist') }}" method="post">
-                    @csrf
                     <button type="submit" class="btn btn-default">新規登録</button>
-                </form>
                 <button onclick="window.history.back()" class="btn btn-secondary">戻る</button>
             </form>
         </div>
