@@ -39,7 +39,9 @@
             <form action="{{ route('edit', $product->id) }}" method="get" style="display:inline;">
                 <button type="submit" class="btn btn-primary">編集</button>
             </form>
-            <button onclick="window.history.back()" class="btn btn-secondary">戻る</button>
+            <form action="{{ url('/list') }}" method="get" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">戻る</button>
+            </form>
         </div>
     </div>
 </div>

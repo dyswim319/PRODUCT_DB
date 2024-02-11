@@ -73,6 +73,9 @@
                             </div>
                         </div>
                     </form>
+                    <form action="{{ url('/register') }}" method="get" style="display:inline;">
+                        <button type="submit" class="btn btn-secondary">新規登録</button>
+                    </form>
                 </div>
             </div>
         </div>

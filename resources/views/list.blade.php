@@ -34,7 +34,7 @@
                        <th>在庫数</th>
                        <th>メーカー名</th>
                        <th>
-                        <form action="{{ route('regist') }}" method="get" style="display:inline;">
+                        <form action="{{ route('regist.form') }}" method="get" style="display:inline;">
                             @csrf
                             <button type="submit" class="btn btn-primary">新規登録</button>
                         </form>
@@ -58,7 +58,7 @@
                         <form action="{{ route('delete', $product->id) }}" method="post" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ $product->product_name }}', '{{ route('delete', $product->id) }}')">削除</button>
+                            <button type="submit" class="btn btn-danger">削除</button>
                         </form>
 
                     </td>
@@ -69,13 +69,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function confirmDelete(productName, deleteUrl) {
-        if (confirm(`商品「${productName}」を削除しますか？`)) {
-            document.forms.namedItem(deleteUrl).submit();
-        }
-    }
-</script>
 
 @endsection

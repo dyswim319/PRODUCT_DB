@@ -68,13 +68,9 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="button" class="btn btn-secondary" onclick="window.history.back()">
-                                    戻る
-                                </button>
-                            </div>
-                        </div>
+                    </form>
+                    <form action="{{ url('/login') }}" method="get" style="display:inline;">
+                        <button type="submit" class="btn btn-secondary">戻る</button>
                     </form>
                 </div>
             </div>

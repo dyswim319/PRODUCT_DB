@@ -57,11 +57,11 @@
                     @endif
                 </div>
 
-
                 <button type="submit" class="btn btn-primary">更新</button>
-                <form action="{{ url()->previous() }}" method="get" style="display:inline;">
-                    <button type="submit" class="btn btn-secondary">戻る</button>
-                </form>
+                
+            </form>
+            <form action="{{ url('/detail/' . $product->id) }}" method="get" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">戻る</button>
             </form>
         </div>
     </div>

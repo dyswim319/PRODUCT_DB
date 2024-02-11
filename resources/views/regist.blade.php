@@ -71,7 +71,9 @@
                     @endif
                 </div>
                     <button type="submit" class="btn btn-default">新規登録</button>
-                <button onclick="window.history.back()" class="btn btn-secondary">戻る</button>
+            </form>
+            <form action="{{ url('/list') }}" method="get" style="display:inline;">
+                <button type="submit" class="btn btn-secondary">戻る</button>
             </form>
         </div>
     </div>

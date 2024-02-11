@@ -133,4 +133,27 @@ class ProductController extends Controller
         return view('list', compact('products', 'companies'));
     }
 
+    public function destroy($id)
+    {
+        DB::beginTransaction();
+    
+        try {
+            $product = Product::find($id);
+    
+            if (!$product) {
+                abort(404);
+            }
+    
+            $product->delete();
+    
+            DB::commit();
+    
+            return redirect()->route('list')->with('success', '削除が完了しました。');
+        }
+        
+        catch (\Exception $e) {
+            DB::rollback();
+            return back()->with('error', '削除中にエラーが発生しました。');
+        }
+    }
 }
