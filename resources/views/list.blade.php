@@ -55,10 +55,10 @@
                             <button type="submit" class="btn btn-primary">詳細</button>
                         </form>
                         
-                        <form action="{{ route('delete', $product->id) }}" method="post" style="display:inline;">
+                        <form id="deleteForm_{{ $product->id }}" action="{{ route('delete', $product->id) }}" method="post" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">削除</button>
+                            <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $product->id }})">削除</button>
                         </form>
 
                     </td>
@@ -69,5 +69,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmDelete(productId) {
+        if (confirm("この商品を削除しますか？")) {
+            document.getElementById('deleteForm_' + productId).submit();
+        }
+    }
+</script>
 
 @endsection
