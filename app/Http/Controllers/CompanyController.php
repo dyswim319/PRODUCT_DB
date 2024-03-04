@@ -15,7 +15,8 @@ class CompanyController extends Controller
 
     public function create()
     {
-        return view('list');
+        $companies = Company::all();
+        return view('regist');
     }
 
     public function store(Request $request)

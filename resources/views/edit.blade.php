@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <h1>商品情報編集画面</h1>
-            <form action="{{ route('update', $product->id) }}" method="post">
+            <form action="{{ route('update', $product->id) }}" method="post" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -27,10 +27,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="manufacturer" class="required">メーカー</label>
-                    <select class="form-control" id="manufacturer" name="manufacturer">
-                        <option value="1" {{ $product->manufacturer_id == 1 ? 'selected' : '' }}>メーカー1</option>
-                        <option value="2" {{ $product->manufacturer_id == 2 ? 'selected' : '' }}>メーカー2</option>
+                    <label for="company_name">メーカー名</label>
+                    <select class="form-control" id="company_name" name="company_name">
+                        <option value="">すべてのメーカー</option>
+                        @foreach ($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                        @endforeach
                     </select>
                 </div>
 
@@ -46,12 +48,12 @@
 
                 <div class="form-group">
                     <label for="comment">コメント</label>
-                     <textarea class="form-control" id="comment" name="comment">{{ $product->comment }}</textarea>
+                    <textarea class="form-control" id="comment" name="comment">{{ $product->comment }}</textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="img_path">商品画像</label>
-                    <input type="file" class="form-control" id="img_path" name="img_path" placeholder="Img_path" value="{{ old('img_path') }}">
+                    <input type="file" class="form-control" id="img_path" name="img_path" placeholder="Img_path">
                     @if($errors->has('img_path'))
                         <p>{{ $errors->first('img_path') }}</p>
                     @endif

@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <h1>商品新規登録画面</h1>
-            <form action="{{ route('submit') }}" method="post">
+            <form action="{{ route('submit') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <style>
@@ -25,18 +25,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="company_id" class="required">メーカー名</label>
-                    <select class="form-control" id="company_id" name="company_id">
-                        <option value="" disabled selected></option>
-
-                        <option value="1" {{ old('company_id') == 1 ? 'selected' : '' }}>メーカー1</option>
-                        <option value="2" {{ old('company_id') == 2 ? 'selected' : '' }}>メーカー2</option>
-                        <option value="3" {{ old('company_id') == 3 ? 'selected' : '' }}>メーカー3</option>
-
+                    <label for="company_name">メーカー名</label>
+                    <select class="form-control" id="company_name" name="company_name">
+                        <option value="">すべてのメーカー</option>
+                        @foreach ($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                        @endforeach
                     </select>
-                    @if($errors->has('company_id'))
-                        <p>{{ $errors->first('company_id') }}</p>
-                    @endif
                 </div>
 
                 <div class="form-group">

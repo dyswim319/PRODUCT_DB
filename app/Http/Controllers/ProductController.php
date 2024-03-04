@@ -16,35 +16,56 @@ class ProductController extends Controller
 
         return view('list', ['products' => $products]);
     }
-
+    public function list()
+    {
+        $products = Product::all();
+        $companies = Company::all();
+        return view('list', compact('products', 'companies'));
+    }
     public function showRegistForm() {
-        return view('regist');
+        $companies = Company::all();
+        return view('regist', compact('companies'));
+    }
+
+
+    public function showDetail($id) {
+        $product = Product::find($id);
+        if (!$product) {
+            abort(404);
+        }
+        return view('detail', ['product' => $product]);
     }
 
     public function registSubmit(ProductRequest $request) {
-
         DB::beginTransaction();
-    
         try {
-            $model = new Product();
-            $model->registProduct($request);
+            $image = $request->file('img_path');
+            $imagePath = null;
+            if ($image) {
+                $imagePath = $image->store('images');
+            }
+            
+            $product = new Product();
+            $product->product_name = $request->input('product_name');
+            $product->company_name = $request->input('company_id');
+            $product->price = $request->input('price');
+            $product->stock = $request->input('stock');
+            $product->comment = $request->input('comment');
+            if ($imagePath) {
+                $product->img_path = $imagePath;
+            }
+            $product->save();
+    
             DB::commit();
+            return redirect()->route('regist')->with('success', '商品を保存しました');
         } catch (\Exception $e) {
             DB::rollback();
-            return back();
+            return back()->with('error', '商品の保存中にエラーが発生しました');
         }
-    
-        return redirect(route('regist.form'));
-    }
-
-    public function showDetailForm() {
-        return view('detail');
     }
 
     public function detailSubmit(ProductRequest $request) {
-
         DB::beginTransaction();
-    
         try {
             $model = new Product();
             $model->detailProduct($request);
@@ -53,35 +74,16 @@ class ProductController extends Controller
             DB::rollback();
             return back();
         }
-
         return redirect(route('detail'));
-    }
-
-    public function showDetail($id) {
-        $product = Product::find($id);
-
-        if (!$product) {
-            abort(404);
-        }
-
-        return view('detail', ['product' => $product]);
-    }
-
-
-    public function regist() {
-        return view('regist');
     }
 
     public function showProductDetails($productId) {
         $product = Product::find($productId);
-
         if (!$product) {
             abort(404);
         }    
-
         return view('edit', compact('product'));
     }
-
 
     public function show($productId)
     {
@@ -89,68 +91,48 @@ class ProductController extends Controller
         return view('detail', compact('product'));
     }
 
-
     public function edit($productId)
     {
         $product = Product::find($productId);
-        return view('edit', compact('product'));
+        $companies = Company::all();
+        return view('edit', compact('product', 'companies'));
     }
-
 
     public function update(Request $request, $productId)
     {
         $product = Product::find($productId);
         $product->update($request->all());
-
         return redirect()->route('edit', $product->id);
-    }
-
-    public function list()
-    {
-        $products = Product::all();
-        $companies = Company::all();
-        return view('list', compact('products', 'companies'));
     }
 
     public function search(Request $request)
     {
         $searchProductName = $request->input('searchProductName');
         $searchCompany = $request->input('searchCompany');
-
         $query = Product::query();
-
         if ($searchProductName) {
             $query->where('product_name', 'like', '%' . $searchProductName . '%');
         }
-
         if ($searchCompany) {
             $query->where('company_id', $searchCompany);
         }
-
         $products = $query->get();
         $companies = Company::all();
-
         return view('list', compact('products', 'companies'));
     }
 
     public function destroy($id)
     {
         DB::beginTransaction();
-    
         try {
             $product = Product::find($id);
-    
             if (!$product) {
                 abort(404);
             }
-    
             $product->delete();
-    
             DB::commit();
-    
             return redirect()->route('list')->with('success', '削除が完了しました。');
         }
-        
         catch (\Exception $e) {
             DB::rollback();
             return back()->with('error', '削除中にエラーが発生しました。');

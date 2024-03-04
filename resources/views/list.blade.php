@@ -12,16 +12,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="searchCompany">メーカー名</label>
-                    <select class="form-control" id="searchCompany" name="searchCompany">
+                    <label for="company_name">メーカー名</label>
+                    <select class="form-control" id="company_name" name="company_name">
                         <option value="">すべてのメーカー</option>
                         @foreach ($companies as $company)
-                            <option value="{{ $company->id }}" {{ old('searchCompany') == $company->id ? 'selected' : '' }}>
-                                {{ $company->company_name }}
-                            </option>
+                        <option value="{{ $company->id }}">{{ $company->company_name }}</option>
                         @endforeach
                     </select>
                 </div>
+                
                 <button type="submit" class="btn btn-primary">検索</button>
             </form>
             <table class="table">
@@ -45,11 +44,11 @@
                @foreach ($products as $product)
                    <tr>
                        <td>{{ $product->id }}</td>
-                       <td>{{ $product->img_path }}</td>
+                       <td><img src="{{ asset($product->img_path) }}" alt="商品画像" width="100"></td>
                        <td>{{ $product->product_name }}</td>
                        <td>{{ $product->price }}</td>
                        <td>{{ $product->stock }}</td>
-                       <td>{{ $product->company_id }}</td>
+                       <td>{{ optional($product->company)->company_name }}</td>
                        <td>
                         <form action="{{ route('detail', $product->id) }}" method="get" style="display:inline;">
                             <button type="submit" class="btn btn-primary">詳細</button>

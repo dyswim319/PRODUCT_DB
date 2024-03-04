@@ -19,7 +19,7 @@
                     <td>{{ $product->product_name }}</td>
                 </tr>
                 <tr>
-                    <th>メーカー</th>
+                    <th>メーカー名</th>
                     <td>{{ $product->company_id }}</td>
                 </tr>
                 <tr>

@@ -24,11 +24,11 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'img_path' => 'required | max:255',
+            'img_path' => 'required|image',
             'product_name' => 'required | max:255',
             'price' => 'required | max:255',
             'stock' => 'required | max:255',
-            'company_id' => 'required | max:255',
+            'company_name' => 'required | max:255',
             'comment' => 'max:10000',
         ];
     }
@@ -44,7 +44,7 @@ class ProductRequest extends FormRequest
             'product_name' => '商品名',
             'price' => '価格',
             'stock' => '在庫数',
-            'company_id' => 'メーカー名',
+            'company_name' => 'メーカー名',
             'comment' => 'コメント',
         ];
     }
@@ -56,16 +56,16 @@ class ProductRequest extends FormRequest
      */
     public function messages() {
         return [
-            'img_path.required' => ':attributeは必須項目です。',
-            'img_path.max' => ':attributeは:max字以内で入力してください。',
+            'img_path.required' => ':attributeを選択してください。',
+            'img_path.image' => ':attributeは画像ファイルを選択してください。',
             'product_name.required' => ':attributeは必須項目です。',
             'product_name.max' => ':attributeは:max字以内で入力してください。',
             'price.required' => ':attributeは必須項目です。',
             'price.max' => ':attributeは:max字以内で入力してください。',
             'stock.required' => ':attributeは必須項目です。',
             'stock.max' => ':attributeは:max字以内で入力してください。',
-            'company_id.required' => ':attributeは必須項目です。',
-            'company_id.max' => ':attributeは:max字以内で入力してください。',
+            'company_name.required' => ':attributeは必須項目です。',
+            'company_name.max' => ':attributeは:max字以内で入力してください。',
             'comment.max' => ':attributeは:max字以内で入力してください。',
         ];
     }

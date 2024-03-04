@@ -10,8 +10,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['product_name', 'price', 'stock', 'comment'];
-
+    protected $fillable = ['product_name', 'price', 'stock', 'comment', 'company_id'];
     public function getList() {
         $query = DB::table('products')->get();
         return $query;
@@ -50,5 +49,9 @@ class Product extends Model
             'company_id' => $data->company_id,
             'comment' => $data->comment,
         ]);
+    }
+
+    public function company() {
+        return $this->belongsTo(Company::class);
     }
 }
