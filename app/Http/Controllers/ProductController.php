@@ -42,18 +42,18 @@ class ProductController extends Controller
             $image = $request->file('img_path');
             $imagePath = null;
             if ($image) {
-                $imagePath = $image->store('images');
+                $file_name = $image->getClientOriginalName();
+                $image->storeAs('public/images', $file_name);
+                $imagePath = 'storage/images/' . $file_name;
             }
             
             $product = new Product();
             $product->product_name = $request->input('product_name');
-            $product->company_name = $request->input('company_id');
+            $product->company_id = $request->input('company_name');
             $product->price = $request->input('price');
             $product->stock = $request->input('stock');
             $product->comment = $request->input('comment');
-            if ($imagePath) {
-                $product->img_path = $imagePath;
-            }
+            $product->img_path = $imagePath;
             $product->save();
     
             DB::commit();
@@ -69,6 +69,15 @@ class ProductController extends Controller
         try {
             $model = new Product();
             $model->detailProduct($request);
+            $image = $request->file('img_path');
+            $imagePath = null;
+            if ($image) {
+                $file_name = $image->getClientOriginalName();
+                $image->storeAs('public/images', $file_name);
+                $imagePath = 'storage/images/' . $file_name;
+            }
+            $product->img_path = $imagePath;
+            
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
@@ -98,10 +107,38 @@ class ProductController extends Controller
         return view('edit', compact('product', 'companies'));
     }
 
-    public function update(Request $request, $productId)
-    {
+    public function update(Request $request, $productId){
+        DB::beginTransaction();
+        try {
+            $product = Product::find($productId);
+                if (!$product) {
+                    abort(404);
+                }
+
+            $image = $request->file('img_path');
+            $imagePath = null;
+            if ($image) {
+                $file_name = $image->getClientOriginalName();
+                $image->storeAs('public/images', $file_name);
+                $imagePath = 'storage/images/' . $file_name;
+            }
+            $product->img_path = $imagePath;
+
+
+            $product->update([
+                'product_name' => $request->input('product_name'),
+                'company_id' => $request->input('company_name'),
+                'price' => $request->input('price'),
+                'stock' => $request->input('stock'),
+                'comment' => $request->input('comment'),
+                'img_path' => $imagePath,
+            ]);
+            DB::commit();
+        } 
+        catch (\Exception $e) {
+            DB::rollback();
+        }
         $product = Product::find($productId);
-        $product->update($request->all());
         return redirect()->route('edit', $product->id);
     }
 
@@ -127,7 +164,7 @@ class ProductController extends Controller
         try {
             $product = Product::find($id);
             if (!$product) {
-                abort(404);
+              abort(404);
             }
             $product->delete();
             DB::commit();

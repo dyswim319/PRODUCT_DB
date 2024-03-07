@@ -12,7 +12,7 @@
                 </tr>
                 <tr>
                     <th>商品画像</th>
-                    <td>{{ $product->img_path }}</td>
+                    <td><img src="{{ asset($product->img_path) }}" alt="商品画像" width="100"></td>
                 </tr>
                 <tr>
                     <th>商品名</th>
@@ -20,7 +20,7 @@
                 </tr>
                 <tr>
                     <th>メーカー名</th>
-                    <td>{{ $product->company_id }}</td>
+                    <td>{{ optional($product->company)->company_name }}</td>
                 </tr>
                 <tr>
                     <th>価格</th>
