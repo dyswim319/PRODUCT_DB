@@ -10,12 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function showList() {
-        $model = new Product();
-        $products = $model->getList();
-
-        return view('list', ['products' => $products]);
-    }
     public function list()
     {
         $products = Product::all();
@@ -62,28 +56,6 @@ class ProductController extends Controller
             DB::rollback();
             return back()->with('error', '商品の保存中にエラーが発生しました');
         }
-    }
-
-    public function detailSubmit(ProductRequest $request) {
-        DB::beginTransaction();
-        try {
-            $model = new Product();
-            $model->detailProduct($request);
-            $image = $request->file('img_path');
-            $imagePath = null;
-            if ($image) {
-                $file_name = $image->getClientOriginalName();
-                $image->storeAs('public/images', $file_name);
-                $imagePath = 'storage/images/' . $file_name;
-            }
-            $product->img_path = $imagePath;
-            
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollback();
-            return back();
-        }
-        return redirect(route('detail'));
     }
 
     public function showProductDetails($productId) {
