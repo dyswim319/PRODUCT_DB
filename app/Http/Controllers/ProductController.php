@@ -10,10 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function list()
-    {
+    public function list() {
         $products = Product::all();
         $companies = Company::all();
+        foreach ($companies as $company) {
+            $id = $company->id;
+        }
         return view('list', compact('products', 'companies'));
     }
     public function showRegistForm() {
@@ -24,10 +26,12 @@ class ProductController extends Controller
 
     public function showDetail($id) {
         $product = Product::find($id);
+        $companies = Company::all();
         if (!$product) {
             abort(404);
         }
-        return view('detail', ['product' => $product]);
+        $company = $product->company;
+        return view('detail', compact('product', 'company'));
     }
 
     public function registSubmit(ProductRequest $request) {

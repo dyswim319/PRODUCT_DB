@@ -48,7 +48,11 @@
                        <td>{{ $product->product_name }}</td>
                        <td>{{ $product->price }}</td>
                        <td>{{ $product->stock }}</td>
-                       <td>{{ optional($product->company)->company_name }}</td>
+                       <td>
+                         @if ($product->company)
+                          {{ $product->company->company_name }}
+                         @endif
+                        </td>
                        <td>
                         <form action="{{ route('detail', $product->id) }}" method="get" style="display:inline;">
                             <button type="submit" class="btn btn-primary">詳細</button>

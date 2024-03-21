@@ -30,8 +30,8 @@ Route::get('/search', [ProductController::class, 'search'])->name('search');
 Route::put('/update/{id}', [ProductController::class, 'update'])->name('update');
 Route::delete('/{id}', [ProductController::class, 'destroy'])->name('delete');
 
-use App\Http\Controllers\CompanyController;
-Route::resource('companies', CompanyController::class);
+//use App\Http\Controllers\CompanyController;
+//Route::resource('companies', CompanyController::class);
 
 use App\Http\Controllers\Auth\LoginController;
 Route::post('/login', [LoginController::class, 'login'])->name('login');
