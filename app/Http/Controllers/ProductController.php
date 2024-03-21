@@ -13,9 +13,6 @@ class ProductController extends Controller
     public function list() {
         $products = Product::all();
         $companies = Company::all();
-        foreach ($companies as $company) {
-            $id = $company->id;
-        }
         return view('list', compact('products', 'companies'));
     }
     public function showRegistForm() {
@@ -45,14 +42,8 @@ class ProductController extends Controller
                 $imagePath = 'storage/images/' . $file_name;
             }
             
-            $product = new Product();
-            $product->product_name = $request->input('product_name');
-            $product->company_id = $request->input('company_name');
-            $product->price = $request->input('price');
-            $product->stock = $request->input('stock');
-            $product->comment = $request->input('comment');
-            $product->img_path = $imagePath;
-            $product->save();
+            $model = new Product();
+            $model->registProduct($request, $imagePath);
     
             DB::commit();
             return redirect()->route('regist')->with('success', '商品を保存しました');
@@ -97,17 +88,15 @@ class ProductController extends Controller
                 $file_name = $image->getClientOriginalName();
                 $image->storeAs('public/images', $file_name);
                 $imagePath = 'storage/images/' . $file_name;
+                $product->img_path = $imagePath;
             }
-            $product->img_path = $imagePath;
-
-
+            
             $product->update([
                 'product_name' => $request->input('product_name'),
                 'company_id' => $request->input('company_name'),
                 'price' => $request->input('price'),
                 'stock' => $request->input('stock'),
                 'comment' => $request->input('comment'),
-                'img_path' => $imagePath,
             ]);
             DB::commit();
         } 
@@ -122,14 +111,8 @@ class ProductController extends Controller
     {
         $searchProductName = $request->input('searchProductName');
         $searchCompany = $request->input('searchCompany');
-        $query = Product::query();
-        if ($searchProductName) {
-            $query->where('product_name', 'like', '%' . $searchProductName . '%');
-        }
-        if ($searchCompany) {
-            $query->where('company_id', $searchCompany);
-        }
-        $products = $query->get();
+        $model = new Product();
+        $products = $model->searchProduct($searchProductName, $searchCompany);
         $companies = Company::all();
         return view('list', compact('products', 'companies'));
     }

@@ -41,15 +41,29 @@ class Product extends Model
         ]);
     }
 
-    public function registProduct($data) {
+    public function registProduct($data, $imagePath) {
         DB::table('products')->insert([
-            'img_path' => $data->img_path,
+            'img_path' => $imagePath,
             'product_name' => $data->product_name,
             'price' => $data->price,
             'stock' => $data->stock,
             'company_id' => $data->company_id,
             'comment' => $data->comment,
         ]);
+    }
+
+    public function searchProduct($name, $company) {
+        $query = self::query();
+
+        if ($name) {
+            $query->where('product_name', 'like', '%' . $name . '%');
+        }
+        if ($company) {
+            $query->where('company_id', $company);
+        }
+        $products = $query->get();
+
+        return $products;
     }
 
      public function company() {
