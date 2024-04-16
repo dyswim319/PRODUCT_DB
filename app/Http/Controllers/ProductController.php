@@ -109,6 +109,11 @@ class ProductController extends Controller
 
     public function search(Request $request)
     {
+        $minPrice = $request->input('minPrice');
+        $maxPrice = $request->input('maxPrice');
+        $minStock = $request->input('minStock');
+        $maxStock = $request->input('maxStock');
+
         $searchProductName = $request->input('searchProductName');
         $searchCompany = $request->input('searchCompany');
         $model = new Product();
